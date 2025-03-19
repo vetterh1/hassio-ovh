@@ -81,6 +81,8 @@ async def _update_ovh(session, domain, user, password):
     """Update OVH."""
     try:
         url = f"https://{user}:{password}@{HOST}?system=dyndns&hostname={domain}"
+        _LOGGER.info("Updating URL: %s", url)
+
         async with async_timeout.timeout(TIMEOUT):
             resp = await session.get(url)
             body = await resp.text()
@@ -90,7 +92,7 @@ async def _update_ovh(session, domain, user, password):
 
                 return True
 
-            _LOGGER.warning("Updating OVH failed: %s => %s", domain, body)
+            _LOGGER.warning("Updating OVH failed: %s => %s; %s", domain, body, resp)
 
     except aiohttp.ClientError:
         _LOGGER.warning("Can't connect to OVH API")
