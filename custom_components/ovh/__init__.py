@@ -26,7 +26,7 @@ DOMAIN = "ovh"
 DEFAULT_INTERVAL = timedelta(minutes=15)
 
 TIMEOUT = 30
-HOST = "www.ovh.com/nic/update"
+HOST = "dns.eu.ovhapis.com/nic/update"
 
 OVH_ERRORS = {
     "nohost": "Hostname supplied does not exist under specified account",
@@ -90,7 +90,7 @@ async def _update_ovh(session, domain, user, password):
 
                 return True
 
-            _LOGGER.warning("Updating OVH failed: %s => %s", domain, OVH_ERRORS[body.strip()])
+            _LOGGER.warning("Updating OVH failed: %s => %s", domain, body)
 
     except aiohttp.ClientError:
         _LOGGER.warning("Can't connect to OVH API")
